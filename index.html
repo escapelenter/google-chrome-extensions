@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RR Update Log</title>
+
+  <!-- Font: Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #f4f4f4;
+      --text-color: #1c1c1c;
+      --header-bg: #ffffff;
+      --header-text: #1c1c1c;
+      --card-bg: #ffffff;
+      --accent-color: #335fff;
+      --border-color: #e0e0e0;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #1a1a1a;
+        --text-color: #ffffff;
+        --header-bg: #121212;
+        --header-text: #ffffff;
+        --card-bg: #1e1e1e;
+        --accent-color: #335fff;
+        --border-color: #2c2c2c;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Montserrat", sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: var(--header-bg);
+      color: var(--header-text);
+      padding: 24px 20px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .top-button {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      font-size: 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.2s;
+    }
+
+    .top-button:hover {
+      background-color: #2449e6;
+    }
+
+    select {
+      font-family: "Montserrat", sans-serif;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      font-weight: 500;
+    }
+
+	.log {
+	padding: 16px 24px 24px 24px; 
+	margin-bottom: 20px;
+	border-radius: 8px;
+	border: 1px solid var(--border-color);
+	background-color: var(--card-bg);
+	}
+
+	.version {
+	margin: 0 0 6px 0;          
+	font-size: 2.0rem;           
+	font-weight: 800;
+	color: var(--accent-color);
+	}
+
+	.date {
+	margin: 0 0 12px 0;          
+	font-size: 0.95rem;
+	color: #888;
+	}
+	
+	ul {
+	margin: 0;                  
+	padding-left: 20px;
+	}
+	
+	li {
+	margin: 0;                   
+	line-height: 1.4;            
+	}
+
+
+
+    .highlight {
+      color: #e6b800;
+      font-weight: bold;
+    }
+
+    .italic {
+      font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .button-group {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .top-button,
+      select {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Roblox Restore Update Log</h1>
+  </header>
+
+  <div class="container">
+    <div class="top-bar">
+      <div class="button-group">
+        <a class="top-button" href="https://chromewebstore.google.com/detail/bbncpejdaccbkpiiaalbfijahjggoili?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer">Download Now!</a>
+        <a class="top-button" href="https://chromewebstore.google.com/detail/roblox-restore-restore-th/bbncpejdaccbkpiiaalbfijahjggoili/review" target="_blank" rel="noopener noreferrer">Rate Me</a>
+      </div>
+      <select id="sortSelect">
+        <option value="newest" selected>Newest to Oldest</option>
+        <option value="oldest">Oldest to Newest</option>
+      </select>
+    </div>
+
+    <div id="logs"></div>
+  </div>
+
+  <script>
+    const updates = [
+      {
+        "version": "v1.2.0 (Coming Soon)",
+        "date": "October, 2025",
+        "items": [
+          "Coming soon"
+        ]
+      },
+      {
+        "version": "v1.1.0",
+        "date": "September 26, 2025",
+        "items": [
+          "NEW FEATURE: Sidebar customization.",
+          "Minor performance improvements.",
+          "New UI redesign for settings page."
+        ]
+      },
+      {
+	"version": "v1.0.0",
+	"date": "July 22, 2025",
+	"items": [
+		"Initial release of the extension."
+		]
+	}
+    ];
+
+    function parseDate(dateStr) {
+      return new Date(dateStr);
+    }
+
+    function formatText(text) {
+      text = text.replace(/NEW FEATURE:/g, '<span class="highlight">NEW FEATURE:</span>');
+      text = text.replace(/\b(EXPERIMENTAL|BETA)\b/g, '<span class="italic">$1</span>');
+      return text;
+    }
+
+    function renderLogs(sortedUpdates) {
+      const container = document.getElementById("logs");
+      container.innerHTML = "";
+
+      sortedUpdates.forEach(update => {
+        const log = document.createElement("div");
+        log.className = "log";
+
+        log.innerHTML = `
+          <h2 class="version">${update.version}</h2>
+          <p class="date">Released: ${update.date}</p>
+          <ul>
+            ${update.items.map(item => `<li>${formatText(item)}</li>`).join("")}
+          </ul>
+        `;
+
+        container.appendChild(log);
+      });
+    }
+
+    function sortAndRender(order) {
+      const sorted = [...updates].sort((a, b) => {
+        const dateA = parseDate(a.date);
+        const dateB = parseDate(b.date);
+        return order === "newest" ? dateB - dateA : dateA - dateB;
+      });
+
+      renderLogs(sorted);
+    }
+
+    document.getElementById("sortSelect").addEventListener("change", (e) => {
+      sortAndRender(e.target.value);
+    });
+
+    // Initial render
+    sortAndRender("newest");
+  </script>
+</body>
+</html>
