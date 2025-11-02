@@ -1,2 +1,2 @@
 # google-chrome-extensions
-update log
+[View page](https://escapelenter.github.io/google-chrome-extensions/)
